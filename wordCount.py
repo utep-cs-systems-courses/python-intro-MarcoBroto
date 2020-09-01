@@ -1,10 +1,9 @@
 #! python2.7
 import sys
 import re
-import os
 
 def countWordsInFile(inputFileName, outputFileName):
-    # Find and load input and output files
+    # Load input and output files
     inputFile = open(inputFileName, 'r')
     outputFile = open(outputFileName, 'w')
     
@@ -15,7 +14,7 @@ def countWordsInFile(inputFileName, outputFileName):
             words[word] = words[word]+1 if word in words else 1
     del words[''] # Remove empty string from word dictionary
 
-    # Sort words by ascending frequency and write stats to output file
+    # Alphabetically sort dictionary by keys and write keys and values to output file
     for k, v in sorted(words.items()): outputFile.write('%s %d\n' % (k, v))
 
 def main():
