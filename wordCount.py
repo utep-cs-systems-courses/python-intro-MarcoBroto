@@ -2,27 +2,31 @@
 import sys
 import re
 
-def countWordsInFile(fileName):
-    try: file = open(fileName, 'r')
-    except FileNotFoundError: raise FileNotFoundError()
-    except IOError: raise IOError()
+def countWordsInFile(inputFileName, outputFileName):
+    # Find and load input and output files
+    inputFile = open(inputFileName, 'r')
+    outputFile = open(outputFileName, 'w')
     
     # Parse out whitespace and punctuation
     words = dict()
-    for line in file:
+    for line in inputFile:
         for word in re.split('[\W\s]*', line):
             words[word] = words[word]+1 if word in words else 1
-    del words['']
+    del words[''] # Remove empty string from word dictionary
 
-    for k, v in sorted(words.items(), key=lambda x: x[1]): print k, v
+    # Sort words by ascending frequency and write stats to output file
+    for k, v in sorted(words.items(), key=lambda x: x[1]): outputFile.write('%s %d\n' % (k, v))
 
 def main():
-    for i in range(1, len(sys.argv)):
-        param = sys.argv[i]
-        if type(param) is str:
-            try: countWordsInFile(param)
-            except Exception as err: print(err)
-        else:
-            raise FileNotFoundError()
+    if len(sys.argv) < 2:
+        print('File arguments not passed in')
+        return
+    
+    # Assign input and ouput file names from CL arguments
+    file_in = sys.argv[1]
+    file_out = sys.argv[2] if len(sys.argv) >= 3 else 'output.txt'
+
+    try: countWordsInFile(file_in, file_out)
+    except IOError as err: print(err)
 
 if __name__ == "__main__": main()
