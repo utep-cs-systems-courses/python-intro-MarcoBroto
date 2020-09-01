@@ -2,25 +2,27 @@
 import sys
 import re
 
-def nextWord(file):
-    for line in file: yield line
-
-def countFileWords(fileName):
+def countWordsInFile(fileName):
     try: file = open(fileName, 'r')
     except FileNotFoundError: raise FileNotFoundError()
     except IOError: raise IOError()
+    
+    # Parse out whitespace and punctuation
     words = dict()
-
-    for line in (line for line in file):
-        for word in re.split('[\W]*', line.lower()):
+    for line in file:
+        for word in re.split('[\W\s]*', line):
             words[word] = words[word]+1 if word in words else 1
     del words['']
 
-if __name__ == "__main__":
-    arg_len = len(sys.argv)
-    for i in range(1, arg_len):
+    for k, v in sorted(words.items(), key=lambda x: x[1]): print k, v
+
+def main():
+    for i in range(1, len(sys.argv)):
         param = sys.argv[i]
         if type(param) is str:
-            try: countFileWords(param)
+            try: countWordsInFile(param)
             except Exception as err: print(err)
-        else: raise ValueError
+        else:
+            raise FileNotFoundError()
+
+if __name__ == "__main__": main()
