@@ -18,12 +18,9 @@ def countWordsInFile(inputFileName, outputFileName):
 def main():
     if len(sys.argv) < 2:
         print('File arguments not passed in')
-        return
-    
-    # Assign input and output file names from CL arguments
-    file_in = sys.argv[1]
-    file_out = sys.argv[2] if len(sys.argv) >= 3 else 'output.txt'
-
+        exit()
+        
+    file_in, file_out = sys.argv[1], sys.argv[2] if len(sys.argv) >= 3 else 'output.txt'
     try: countWordsInFile(file_in, file_out)
     except IOError as err: print(err)
 
