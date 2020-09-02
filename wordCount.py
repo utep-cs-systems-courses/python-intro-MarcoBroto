@@ -3,16 +3,15 @@ import sys
 import re
 
 if len(sys.argv) < 2:
-        print('File arguments not passed in')
-        exit()
+    print('File arguments not passed in')
+    exit()
 file_in, file_out = sys.argv[1], sys.argv[2] if len(sys.argv) >= 3 else 'output.txt'
 
 try:
     words = dict()
     with open(file_in, 'r') as inputFile:
-        # Parse out whitespace and punctuation
         for line in inputFile:
-            for word in re.split('\W', line.lower()):
+            for word in re.split('\W', line.lower()): # Parse out whitespace and punctuation
                 words[word] = words[word]+1 if word in words else 1
         del words[''] # Remove empty string from word dictionary
 
